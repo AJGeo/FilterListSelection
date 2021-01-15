@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.List;
 
-public class DataSourceForTest {
+public class DataSourceSetupForTest {
     public void setupDataSource(IDataTable dataTable) {
         Mockito.when(dataTable.getColumnIndex("family")).thenReturn(0);
         Mockito.when(dataTable.getColumnIndex("group")).thenReturn(1);
