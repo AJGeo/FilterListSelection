@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface IFilterModel {
-    public Optional<Map<FilterColumnsEnum, Optional<List<String>>>> Filter(final String groupFilterValue,
+    public Optional<Map<FilterColumnsEnum, Optional<List<String>>>> filter(final String groupFilterValue,
                                                                 final String typeFilterValue,
                                                                 final String subtypeFilterValue);
 
