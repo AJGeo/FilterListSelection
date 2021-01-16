@@ -37,7 +37,7 @@ class FilterModelTest {
     }
 
     @Test
-    void createModelWithNullParameterTest() {
+    void createModelWithNullNullParameterTest() {
         System.out.println("Create FilterModel with null Parameter");
 
         Assertions.assertThrows(Error.class, () -> {
@@ -45,4 +45,12 @@ class FilterModelTest {
         });
     }
 
+    @Test
+    void createModelWithNullParameterTest() {
+        System.out.println("Create FilterModel with null Parameter");
+
+        Assertions.assertThrows(Error.class, () -> {
+            IFilterModel filterModel = new FilterModel(dataTable, null);
+        });
+    }
 }
