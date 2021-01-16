@@ -6,9 +6,9 @@ import org.aj.lists.api.IFilterDataColumnNames;
 public class FilterDataColumnNames
         implements IFilterDataColumnNames {
 
-    private String familyColumnName;
-    private String groupColumnName;
-    private String typeColumnName;
+    private final String familyColumnName;
+    private final String groupColumnName;
+    private final String typeColumnName;
 
     public FilterDataColumnNames(String familyColumnName, String groupColumnName, String typeColumnName) throws Error {
         if (familyColumnName == null || groupColumnName == null || typeColumnName == null)
