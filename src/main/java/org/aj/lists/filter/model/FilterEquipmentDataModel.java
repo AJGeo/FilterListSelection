@@ -4,43 +4,45 @@ import org.aj.database.common.IDataRow;
 import org.aj.database.common.IDataTable;
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;
-import org.aj.lists.api.IFilterModel;
+import org.aj.lists.api.IFilterEquipmentDataModel;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FilterModel implements IFilterModel {
+public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
     private final IDataTable dataTable;
     private final IFilterDataColumnNames filterDataColumnNames;
-    private final List<List<String>> filteredList;
+    private final List<List<String>> filteredDataList;
+    private final Map<FilterColumnsEnum, Optional<List<String>>> filterColumnDataMap;
     private int familyColumnIndex;
     private int groupColumnIndex;
     private int typeColumnIndex;
 
-    public FilterModel(IDataTable dataTable, IFilterDataColumnNames filterDataColumnNames) throws Error {
+    public FilterEquipmentDataModel(IDataTable dataTable, IFilterDataColumnNames filterDataColumnNames) throws Error {
         if (dataTable == null || filterDataColumnNames == null)
             throw new Error("A column name was not defined");
 
         this.dataTable = dataTable;
         this.filterDataColumnNames = filterDataColumnNames;
-        filteredList = new ArrayList<>();
+        filteredDataList = new ArrayList<>();
+        filterColumnDataMap = new HashMap<>();
 
         retrieveColumnIndexesFromDataTable();
 
-        filter(null, null, null);
+        applyFilterValues(null, null, null);
     }
 
-    private final void retrieveColumnIndexesFromDataTable() {
+    private void retrieveColumnIndexesFromDataTable() {
         familyColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Family));
         groupColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Group));
         typeColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Type));
     }
 
     @Override
-    public final Optional<Map<FilterColumnsEnum, Optional<List<String>>>> filter(String familyFilterValue,
-                                                                                 String groupFilterValue,
-                                                                                 String typeFilterValue) {
-        if (!dataTable.getRows().isPresent())
+    public final Optional<Map<FilterColumnsEnum, Optional<List<String>>>> applyFilterValues(String familyFilterValue,
+                                                                                            String groupFilterValue,
+                                                                                            String typeFilterValue) {
+        if (dataTable.getRows().isEmpty())
             return Optional.empty();
 
         Set<String> familySet = new HashSet<>();
@@ -50,7 +52,7 @@ public class FilterModel implements IFilterModel {
         Set<String> typeSet = new HashSet<>();
         typeSet.add("");
 
-        filteredList.clear();
+        filteredDataList.clear();
         for (IDataRow row : dataTable.getRows().get()) {
             String familyDataValue = row.getString(familyColumnIndex).isPresent() ?
                     row.getString(familyColumnIndex).get() : null;
@@ -75,7 +77,12 @@ public class FilterModel implements IFilterModel {
         List<String> groupList = groupSet.stream().sorted().collect(Collectors.toList());
         List<String> typeList = typeSet.stream().sorted().collect(Collectors.toList());
 
-        return null;
+
+        filterColumnDataMap.put(FilterColumnsEnum.Family, Optional.of(familyList));
+        filterColumnDataMap.put(FilterColumnsEnum.Group, Optional.of(groupList));
+        filterColumnDataMap.put(FilterColumnsEnum.Type, Optional.of(typeList));
+
+        return Optional.of(filterColumnDataMap);
     }
 
     private boolean isFamilyFilterPass(String dataValue, String familyFilterValue) {
@@ -91,24 +98,29 @@ public class FilterModel implements IFilterModel {
     }
 
     private void addFilteredListValues(String... dataValues) {
-        filteredList.add(new ArrayList<>(
+        filteredDataList.add(new ArrayList<>(
                 Arrays.asList(dataValues)));
     }
 
     private void sortFilteredListValues() {
-        if (filteredList.isEmpty())
+        if (filteredDataList.isEmpty())
             return;
 
         Comparator<List<String>> compareFirstToLastListValue = Comparator.comparing(familyValue -> familyValue.get(0));
-        for (int count = 1; count < filteredList.get(0).size(); ++count) {
+        for (int count = 1; count < filteredDataList.get(0).size(); ++count) {
             final int countFinal = count;
             compareFirstToLastListValue = compareFirstToLastListValue.thenComparing(groupValue -> groupValue.get(countFinal));
         }
-        filteredList.sort(compareFirstToLastListValue);
+        filteredDataList.sort(compareFirstToLastListValue);
     }
 
     @Override
-    public final Optional<String[][]> getFilteredData() {
-        return Optional.of(new String[0][]);
+    public Map<FilterColumnsEnum, Optional<List<String>>> getFilteredColumnsData() {
+        return filterColumnDataMap;
+    }
+
+    @Override
+    public final Optional<List<List<String>>> getFilteredData() {
+        return Optional.of(filteredDataList);
     }
 }
