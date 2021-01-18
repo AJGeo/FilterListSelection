@@ -54,20 +54,20 @@ class FilterDataColumnNamesTest {
     void getColumnNameFamilyTest() {
         System.out.println("Test getColumnName family");
 
-        assertEquals(FAMILY_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.Family));
+        assertEquals(FAMILY_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.family));
     }
 
     @Test
     void getColumnNameGroupTest() {
         System.out.println("Test getColumnName group");
 
-        assertEquals(GROUP_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.Group));
+        assertEquals(GROUP_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.group));
     }
 
     @Test
     void getColumnNameTypeTest() {
         System.out.println("Test getColumnName type");
 
-        assertEquals(TYPE_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.Type));
+        assertEquals(TYPE_VALUE, filterDataColumnNamesDefault.getColumnName(FilterColumnsEnum.type));
     }
 }
