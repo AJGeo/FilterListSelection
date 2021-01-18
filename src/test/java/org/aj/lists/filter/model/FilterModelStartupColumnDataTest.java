@@ -6,12 +6,10 @@ import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 
-import javax.management.ConstructorParameters;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,18 +74,18 @@ public class FilterModelStartupColumnDataTest {
         assertEquals(expectedLength, returnedArray.length);
     }
 
-    @ParameterizedTest(name = "name={0}: ({1}{2}) = result={3}")
-    @CsvSource(value ={
-            "First,0,", "Second,1,AN-12"
+    @ParameterizedTest(name = "name={0}: ({1}) = result={2}")
+    @CsvSource(value = {
+            "First, 0, ''", "Second, 1, AN-12", "Middle, 16, JAVELIN", "Last, 34, UNKNOWN"
     })
     void confirmFilteredColumnsDataTypeValuesStartState(String partitionString, int index,
-                                                                String expectedResult) {
+                                                        String expectedResult) {
         IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
 
         String[] returnedArray =
                 getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
-        String typeValue=returnedArray[index];
-        assertEquals(typeValue,expectedResult);
+        String typeValue = returnedArray[index];
+        assertEquals(typeValue, expectedResult);
     }
 
     private String[] getFilterColumnData(IFilterEquipmentDataModel filterEquipmentDataModel,
