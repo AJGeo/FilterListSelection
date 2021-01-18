@@ -15,6 +15,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     compile group: 'org.mockito', name: 'mockito-all', version: '+'
+    compile 'org.junit.jupiter:junit-jupiter-params:5.6.0'
 }
 
 test {
