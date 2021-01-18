@@ -26,9 +26,9 @@ public class FilterDataColumnNames
     @Override
     public String getColumnName(FilterColumnsEnum filterColumns) {
         switch (filterColumns) {
-            case Family:
+            case family:
                 return getFamilyColumnName();
-            case Group:
+            case group:
                 return getGroupColumnName();
             default:
                 return getTypeColumnName();
