@@ -33,9 +33,9 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
     }
 
     private void retrieveColumnIndexesFromDataTable() {
-        familyColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Family));
-        groupColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Group));
-        typeColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.Type));
+        familyColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.family));
+        groupColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.group));
+        typeColumnIndex = dataTable.getColumnIndex(filterDataColumnNames.getColumnName(FilterColumnsEnum.type));
     }
 
     @Override
@@ -78,9 +78,9 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
         List<String> typeList = typeSet.stream().sorted().collect(Collectors.toList());
 
 
-        filterColumnDataMap.put(FilterColumnsEnum.Family, Optional.of(familyList));
-        filterColumnDataMap.put(FilterColumnsEnum.Group, Optional.of(groupList));
-        filterColumnDataMap.put(FilterColumnsEnum.Type, Optional.of(typeList));
+        filterColumnDataMap.put(FilterColumnsEnum.family, Optional.of(familyList));
+        filterColumnDataMap.put(FilterColumnsEnum.group, Optional.of(groupList));
+        filterColumnDataMap.put(FilterColumnsEnum.type, Optional.of(typeList));
 
         return Optional.of(filterColumnDataMap);
     }
