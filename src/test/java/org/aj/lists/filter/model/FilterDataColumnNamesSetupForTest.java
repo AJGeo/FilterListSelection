@@ -8,10 +8,10 @@ public class FilterDataColumnNamesSetupForTest {
 
     public void setupFilterDataColumnNames(IFilterDataColumnNames filterDataColumnNames) {
         String FAMILY_VALUE = "family";
-        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.Family)).thenReturn(FAMILY_VALUE);
+        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.family)).thenReturn(FAMILY_VALUE);
         String GROUP_VALUE = "group";
-        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.Group)).thenReturn(GROUP_VALUE);
+        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.group)).thenReturn(GROUP_VALUE);
         String TYPE_VALUE = "type";
-        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.Type)).thenReturn(TYPE_VALUE);
+        Mockito.when(filterDataColumnNames.getColumnName(FilterColumnsEnum.type)).thenReturn(TYPE_VALUE);
     }
 }
