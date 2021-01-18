@@ -39,11 +39,11 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
     }
 
     @Override
-    public final Optional<Map<FilterColumnsEnum, Optional<List<String>>>> applyFilterValues(String familyFilterValue,
-                                                                                            String groupFilterValue,
-                                                                                            String typeFilterValue) {
+    public final Map<FilterColumnsEnum, Optional<List<String>>> applyFilterValues(String familyFilterValue,
+                                                                                  String groupFilterValue,
+                                                                                  String typeFilterValue) {
         if (dataTable.getRows().isEmpty())
-            return Optional.empty();
+            return filterColumnDataMap;
 
         Set<String> familySet = new HashSet<>();
         familySet.add("");
@@ -82,7 +82,7 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
         filterColumnDataMap.put(FilterColumnsEnum.group, Optional.of(groupList));
         filterColumnDataMap.put(FilterColumnsEnum.type, Optional.of(typeList));
 
-        return Optional.of(filterColumnDataMap);
+        return (filterColumnDataMap);
     }
 
     private boolean isFamilyFilterPass(String dataValue, String familyFilterValue) {
@@ -120,7 +120,7 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
     }
 
     @Override
-    public final Optional<List<List<String>>> getFilteredData() {
-        return Optional.of(filteredDataList);
+    public final List<List<String>> getFilteredData() {
+        return filteredDataList;
     }
 }
