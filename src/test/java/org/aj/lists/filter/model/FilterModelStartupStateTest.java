@@ -14,13 +14,13 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilterModelTest {
+class FilterModelStartupStateTest {
     private IDataTable dataTable;
     private IFilterDataColumnNames filterDataColumnNames;
     private final DataSourceSetupForTest dataSourceSetupForTest;
     private final FilterDataColumnNamesSetupForTest filterDataColumnNamesSetupForTest;
 
-    public FilterModelTest() {
+    public FilterModelStartupStateTest() {
         dataSourceSetupForTest = new DataSourceSetupForTest();
         filterDataColumnNamesSetupForTest = new FilterDataColumnNamesSetupForTest();
 
@@ -37,7 +37,6 @@ class FilterModelTest {
     @Test
     public void createModel() {
         System.out.println("Create FilterModel");
-
 
         IFilterEquipmentDataModel filterModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
         assertNotNull(filterModel);
@@ -60,53 +59,4 @@ class FilterModelTest {
             IFilterEquipmentDataModel filterModel = new FilterEquipmentDataModel(dataTable, null);
         });
     }
-
-    @Test
-    void confirmFilteredColumnsDataFamilyStartState() {
-        System.out.println("Confirm FilteredColumnsData Family On Startup");
-
-        IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
-
-        String[] expectedArray = new String[]{"", "ADA", "Aircraft"};
-        String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.family);
-
-        assertArrayEquals(expectedArray, returnedArray);
-    }
-
-    @Test
-    void confirmFilteredColumnsDataGroupStartState() {
-        System.out.println("Confirm FilteredColumnsData Group On Startup");
-
-        IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
-
-        String[] expectedArray = new String[]{"", "Fighters", "G/A", "Man Port SAM", "SAM", "Transport"};
-        String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.group);
-
-        assertArrayEquals(expectedArray, returnedArray);
-    }
-    @Test
-    void confirmFilteredColumnsDataTypeLengthStartState() {
-        System.out.println("Confirm FilteredColumnsData Type Length On Startup");
-
-        IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
-
-        int expectedLength = 35;
-        String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
-
-        assertEquals(expectedLength, returnedArray.length);
-    }
-
-    private String[] getFilterColumnData(IFilterEquipmentDataModel filterEquipmentDataModel,
-                                         FilterColumnsEnum filterColumns) {
-        Optional<List<String>> optional = filterEquipmentDataModel.getFilteredColumnsData().get(filterColumns);
-        if (optional.isPresent()) {
-            List<String> FilteredColumnsDataFamily = optional.get();
-            return FilteredColumnsDataFamily.toArray(new String[0]);
-        }
-        return null;
-    }
-
 }
