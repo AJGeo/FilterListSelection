@@ -43,7 +43,7 @@ public class FilterModelStartupColumnDataTest {
 
         String[] expectedArray = new String[]{"", "ADA", "Aircraft"};
         String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.family);
+                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.family);
 
         assertArrayEquals(expectedArray, returnedArray);
     }
@@ -56,7 +56,7 @@ public class FilterModelStartupColumnDataTest {
 
         String[] expectedArray = new String[]{"", "Fighters", "G/A", "Man Port SAM", "SAM", "Transport"};
         String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.group);
+                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.group);
 
         assertArrayEquals(expectedArray, returnedArray);
     }
@@ -69,7 +69,7 @@ public class FilterModelStartupColumnDataTest {
 
         int expectedLength = 35;
         String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
+                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
 
         assertEquals(expectedLength, returnedArray.length);
     }
@@ -83,18 +83,8 @@ public class FilterModelStartupColumnDataTest {
         IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
 
         String[] returnedArray =
-                getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
+                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
         String typeValue = returnedArray[index];
         assertEquals(typeValue, expectedResult);
-    }
-
-    private String[] getFilterColumnData(IFilterEquipmentDataModel filterEquipmentDataModel,
-                                         FilterColumnsEnum filterColumns) {
-        Optional<List<String>> optional = filterEquipmentDataModel.getFilteredColumnsData().get(filterColumns);
-        if (optional.isPresent()) {
-            List<String> FilteredColumnsDataFamily = optional.get();
-            return FilteredColumnsDataFamily.toArray(new String[0]);
-        }
-        return null;
     }
 }
