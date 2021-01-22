@@ -1,9 +1,11 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.create;
 
 import org.aj.database.common.IDataTable;
-import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
+import org.aj.lists.filter.model.data.DataSourceSetupForTest;
+import org.aj.lists.filter.model.columndata.FilterDataColumnNamesSetupForTest;
+import org.aj.lists.filter.model.FilterEquipmentDataModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

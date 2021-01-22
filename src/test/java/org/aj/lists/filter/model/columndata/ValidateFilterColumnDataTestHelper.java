@@ -1,8 +1,9 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.columndata;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class FilterModelValidateFilterColumnDataTestHelper {
+public class ValidateFilterColumnDataTestHelper {
     private final String familyFilterInput;
     private final String groupFilterInput;
     private final String typeFilterInput;
@@ -16,18 +17,18 @@ public class FilterModelValidateFilterColumnDataTestHelper {
     private final String typeFilterReturnListFirstValue;
     private final String typeFilterReturnListLastValue;
 
-    public FilterModelValidateFilterColumnDataTestHelper(String familyFilterInput,
-                                                         String groupFilterInput,
-                                                         String typeFilterInput,
-                                                         int familyFilterReturnListLength,
-                                                         int groupFilterReturnListLength,
-                                                         int typeFilterReturnListLength,
-                                                         String familyFilterReturnListFirstValue,
-                                                         String familyFilterReturnListLastValue,
-                                                         String groupFilterReturnListFirstValue,
-                                                         String groupFilterReturnListLastValue,
-                                                         String typeFilterReturnListFirstValue,
-                                                         String typeFilterReturnListLastValue) {
+    public ValidateFilterColumnDataTestHelper(String familyFilterInput,
+                                              String groupFilterInput,
+                                              String typeFilterInput,
+                                              int familyFilterReturnListLength,
+                                              int groupFilterReturnListLength,
+                                              int typeFilterReturnListLength,
+                                              String familyFilterReturnListFirstValue,
+                                              String familyFilterReturnListLastValue,
+                                              String groupFilterReturnListFirstValue,
+                                              String groupFilterReturnListLastValue,
+                                              String typeFilterReturnListFirstValue,
+                                              String typeFilterReturnListLastValue) {
         this.familyFilterInput = familyFilterInput;
         this.groupFilterInput = groupFilterInput;
         this.typeFilterInput = typeFilterInput;

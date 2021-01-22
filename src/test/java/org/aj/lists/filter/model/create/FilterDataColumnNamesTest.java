@@ -1,6 +1,7 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.create;
 
 import org.aj.lists.api.FilterColumnsEnum;
+import org.aj.lists.filter.model.FilterDataColumnNames;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

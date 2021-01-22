@@ -1,4 +1,4 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.data;
 
 import org.aj.database.common.IDataRow;
 import org.aj.database.common.IDataTable;

@@ -1,4 +1,4 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.util;
 
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterEquipmentDataModel;
@@ -6,8 +6,8 @@ import org.aj.lists.api.IFilterEquipmentDataModel;
 import java.util.List;
 import java.util.Optional;
 
-class FilterModelUtil {
-    static String[] getFilterColumnData(IFilterEquipmentDataModel filterEquipmentDataModel,
+public class FilterModelTestUtil {
+    public static String[] getFilterColumnData(IFilterEquipmentDataModel filterEquipmentDataModel,
                                          FilterColumnsEnum filterColumns) {
         Optional<List<String>> optional = filterEquipmentDataModel.getFilteredColumnsData().get(filterColumns);
         if (optional.isPresent()) {

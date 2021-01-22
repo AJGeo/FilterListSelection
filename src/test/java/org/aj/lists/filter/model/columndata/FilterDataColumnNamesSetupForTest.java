@@ -1,4 +1,4 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.columndata;
 
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;

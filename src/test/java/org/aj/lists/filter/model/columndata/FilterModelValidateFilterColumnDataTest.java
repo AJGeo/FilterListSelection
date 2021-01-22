@@ -1,9 +1,11 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.columndata;
 
 import org.aj.database.common.IDataTable;
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
+import org.aj.lists.filter.model.data.DataSourceSetupForTest;
+import org.aj.lists.filter.model.FilterEquipmentDataModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
@@ -35,7 +37,7 @@ public class FilterModelValidateFilterColumnDataTest {
 
     @TestFactory
     Stream<DynamicTest> filterFamilyColumnValidateTestCases() {
-        List<FilterModelValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
 
         Stream<DynamicTest> filterFamilyLengthTestStream = inputList.stream().
                 map(validateFilter -> DynamicTest.dynamicTest(
@@ -113,7 +115,7 @@ public class FilterModelValidateFilterColumnDataTest {
 
     @TestFactory
     Stream<DynamicTest> filterGroupColumnValidateTestCases() {
-        List<FilterModelValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
 
         Stream<DynamicTest> filterGroupLengthTestStream = inputList.stream().
                 map(validateFilter -> DynamicTest.dynamicTest(
@@ -191,7 +193,7 @@ public class FilterModelValidateFilterColumnDataTest {
 
     @TestFactory
     Stream<DynamicTest> filterTypeColumnValidateTestCases() {
-        List<FilterModelValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
 
         Stream<DynamicTest> filterTypeLengthTestStream = inputList.stream().
                 map(validateFilter -> DynamicTest.dynamicTest(
@@ -267,23 +269,27 @@ public class FilterModelValidateFilterColumnDataTest {
         return streamReturn;
     }
 
-    private List<FilterModelValidateFilterColumnDataTestHelper> getTestParameters() {
+
+    private IFilterEquipmentDataModel getFilterEquipmentDataModel() {
+        return new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
+    }
+    private List<ValidateFilterColumnDataTestHelper> getTestParameters() {
         return Arrays.asList(
-                new FilterModelValidateFilterColumnDataTestHelper(
+                new ValidateFilterColumnDataTestHelper(
                         "Aircraft", null, null,
                         2, 4, 24,
                         "", "Aircraft",
                         "", "Transport",
                         "", "UNKNOWN"),
                 getNoFilterValidateFilterColumnDataTestHelper(),
-                new FilterModelValidateFilterColumnDataTestHelper(
+                new ValidateFilterColumnDataTestHelper(
                         null, "SAM", null,
                         2, 2, 7,
                         "", "ADA",
                         "", "SAM",
                         "", "Star Streak"),
                 getNoFilterValidateFilterColumnDataTestHelper(),
-                new FilterModelValidateFilterColumnDataTestHelper(
+                new ValidateFilterColumnDataTestHelper(
                         null, null, "SA-14",
                         2, 3, 2,
                         "", "ADA",
@@ -292,16 +298,12 @@ public class FilterModelValidateFilterColumnDataTest {
                 getNoFilterValidateFilterColumnDataTestHelper());
     }
 
-    private FilterModelValidateFilterColumnDataTestHelper getNoFilterValidateFilterColumnDataTestHelper() {
-        return new FilterModelValidateFilterColumnDataTestHelper(
+    private  ValidateFilterColumnDataTestHelper getNoFilterValidateFilterColumnDataTestHelper() {
+        return new ValidateFilterColumnDataTestHelper(
                 null, null, null,
                 3, 6, 35,
                 "", "Aircraft",
                 "", "Transport",
                 "", "UNKNOWN");
-    }
-
-    private IFilterEquipmentDataModel getFilterEquipmentDataModel() {
-        return new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
     }
 }

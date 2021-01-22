@@ -1,17 +1,18 @@
-package org.aj.lists.filter.model;
+package org.aj.lists.filter.model.create;
 
 import org.aj.database.common.IDataTable;
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
+import org.aj.lists.filter.model.data.DataSourceSetupForTest;
+import org.aj.lists.filter.model.columndata.FilterDataColumnNamesSetupForTest;
+import org.aj.lists.filter.model.FilterEquipmentDataModel;
+import org.aj.lists.filter.model.util.FilterModelTestUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
-
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ public class FilterModelStartupColumnDataTest {
 
         String[] expectedArray = new String[]{"", "ADA", "Aircraft"};
         String[] returnedArray =
-                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.family);
+                FilterModelTestUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.family);
 
         assertArrayEquals(expectedArray, returnedArray);
     }
@@ -56,7 +57,7 @@ public class FilterModelStartupColumnDataTest {
 
         String[] expectedArray = new String[]{"", "Fighters", "G/A", "Man Port SAM", "SAM", "Transport"};
         String[] returnedArray =
-                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.group);
+                FilterModelTestUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.group);
 
         assertArrayEquals(expectedArray, returnedArray);
     }
@@ -69,7 +70,7 @@ public class FilterModelStartupColumnDataTest {
 
         int expectedLength = 35;
         String[] returnedArray =
-                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
+                FilterModelTestUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
 
         assertEquals(expectedLength, returnedArray.length);
     }
@@ -83,7 +84,7 @@ public class FilterModelStartupColumnDataTest {
         IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
 
         String[] returnedArray =
-                FilterModelUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
+                FilterModelTestUtil.getFilterColumnData(filterEquipmentDataModel, FilterColumnsEnum.type);
         String typeValue = returnedArray[index];
         assertEquals(typeValue, expectedResult);
     }
