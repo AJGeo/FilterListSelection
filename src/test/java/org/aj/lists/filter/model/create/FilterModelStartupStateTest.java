@@ -3,19 +3,18 @@ package org.aj.lists.filter.model.create;
 import org.aj.database.common.IDataTable;
 import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
-import org.aj.lists.filter.model.data.DataSourceSetupForTest;
-import org.aj.lists.filter.model.columndata.FilterDataColumnNamesSetupForTest;
 import org.aj.lists.filter.model.FilterEquipmentDataModel;
+import org.aj.lists.filter.model.data.DataSourceSetupForTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class FilterModelStartupStateTest {
-    private IDataTable dataTable;
-    private IFilterDataColumnNames filterDataColumnNames;
+    private final IDataTable dataTable;
+    private final IFilterDataColumnNames filterDataColumnNames;
     private final DataSourceSetupForTest dataSourceSetupForTest;
     private final FilterDataColumnNamesSetupForTest filterDataColumnNamesSetupForTest;
 

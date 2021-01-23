@@ -5,7 +5,6 @@ import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
 import org.aj.lists.filter.model.FilterEquipmentDataModel;
 import org.aj.lists.filter.model.data.DataSourceSetupForTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,13 +15,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FilterModelStartupDataTest {
+public class FilterModelStartupFilteredDataTest {
     private final IDataTable dataTable;
     private final IFilterDataColumnNames filterDataColumnNames;
     private final DataSourceSetupForTest dataSourceSetupForTest;
     private final FilterDataColumnNamesSetupForTest filterDataColumnNamesSetupForTest;
 
-    public FilterModelStartupDataTest() {
+    public FilterModelStartupFilteredDataTest() {
         dataSourceSetupForTest = new DataSourceSetupForTest();
         filterDataColumnNamesSetupForTest = new FilterDataColumnNamesSetupForTest();
 
@@ -42,7 +41,7 @@ public class FilterModelStartupDataTest {
 
         IFilterEquipmentDataModel filterEquipmentDataModel = new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
 
-        int expectedLength = 39;
+        int expectedLength = 38;
         List<List<String>> returnedData = filterEquipmentDataModel.getFilteredData();
 
         assertEquals(expectedLength, returnedData.size());
@@ -50,9 +49,9 @@ public class FilterModelStartupDataTest {
 
     @ParameterizedTest(name = "name={0}: ({1}{2}{3}) = result={4}")
     @CsvSource(value = {
-            "0, '', '', '', true",
-            "20, Aircraft, Fighters, MIG-17, true",
-            "38, Aircraft, Transport, GULFSTREAM 2, true"
+            "0, 'ADA', 'Man Port SAM', 'JAVELIN', true",
+            "20, Aircraft, Fighters, MIG-19, true",
+            "37, Aircraft, Transport, GULFSTREAM 2, true"
     })
     void confirmFilteredColumnsDataTypeValuesStartState(int index,
                                                         String family, String group, String type,
