@@ -4,14 +4,18 @@ import org.aj.database.common.IDataTable;
 import org.aj.lists.api.FilterColumnsEnum;
 import org.aj.lists.api.IFilterDataColumnNames;
 import org.aj.lists.api.IFilterEquipmentDataModel;
-import org.aj.lists.filter.model.data.DataSourceSetupForTest;
 import org.aj.lists.filter.model.FilterEquipmentDataModel;
+import org.aj.lists.filter.model.create.FilterDataColumnNamesSetupForTest;
+import org.aj.lists.filter.model.data.DataSourceSetupForTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.mockito.Mockito;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class FilterModelValidateFilterColumnDataTest {
@@ -37,273 +41,170 @@ public class FilterModelValidateFilterColumnDataTest {
 
     @TestFactory
     Stream<DynamicTest> filterFamilyColumnValidateTestCases() {
-        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        FilterColumnDataTestsInput filterColumnDataTestsInput = new FilterColumnDataTestsInput();
+        List<FilterColumnDataTestParameters> inputList = filterColumnDataTestsInput.getTestParameters();
 
-        Stream<DynamicTest> filterFamilyLengthTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Family Column Length; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
+        Stream<DynamicTest> streamReturn = Stream.concat(
+                filterLengthTestStream(inputList, FilterColumnsEnum.family),
+                filterFirstValueTestStream(inputList, FilterColumnsEnum.family));
 
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.family);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Assertions.assertEquals(validateFilter.getFamilyFilterReturnListLength(),
-                                    FilteredColumnsData.size());
-                        }
-                ));
-        Stream<DynamicTest> filterFamilyFirstValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Family Column First Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
-
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.family);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Optional<String> firstValue = FilteredColumnsData.stream().findFirst();
-
-                            Assertions.assertEquals(validateFilter.getFamilyFilterReturnListFirstValue(),
-                                    firstValue.get());
-                        }
-                ));
-        Stream<DynamicTest> filterFamilyLastValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Family Column Last Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
-
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.family);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Optional<String> lastValue = Optional.ofNullable(
-                                    FilteredColumnsData.get(FilteredColumnsData.size() - 1));
-
-                            Assertions.assertEquals(validateFilter.getFamilyFilterReturnListLastValue(),
-                                    lastValue.get());
-                        }
-                ));
-
-        Stream<DynamicTest> streamReturn = Stream.concat(filterFamilyLengthTestStream, filterFamilyFirstValueTestStream);
-        streamReturn = Stream.concat(streamReturn, filterFamilyLastValueTestStream);
-
-        return streamReturn;
+        return Stream.concat(streamReturn,
+                filterLastValueTestStream(inputList, FilterColumnsEnum.family));
     }
 
     @TestFactory
     Stream<DynamicTest> filterGroupColumnValidateTestCases() {
-        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        FilterColumnDataTestsInput filterColumnDataTestsInput = new FilterColumnDataTestsInput();
+        List<FilterColumnDataTestParameters> inputList = filterColumnDataTestsInput.getTestParameters();
 
-        Stream<DynamicTest> filterGroupLengthTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Group Column Length; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
+        Stream<DynamicTest> streamReturn = Stream.concat(
+                filterLengthTestStream(inputList, FilterColumnsEnum.group),
+                filterFirstValueTestStream(inputList, FilterColumnsEnum.group));
 
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.group);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Assertions.assertEquals(validateFilter.getGroupFilterReturnListLength(),
-                                    FilteredColumnsData.size());
-                        }
-                ));
-        Stream<DynamicTest> filterGroupFirstValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Group Column First Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
-
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.group);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Optional<String> firstValue = FilteredColumnsData.stream().findFirst();
-
-                            Assertions.assertEquals(validateFilter.getGroupFilterReturnListFirstValue(),
-                                    firstValue.get());
-                        }
-                ));
-        Stream<DynamicTest> filterGroupLastValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Group Column Last Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
-
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
-
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.group);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Optional<String> lastValue = Optional.ofNullable(
-                                    FilteredColumnsData.get(FilteredColumnsData.size() - 1));
-
-                            Assertions.assertEquals(validateFilter.getGroupFilterReturnListLastValue(),
-                                    lastValue.get());
-                        }
-                ));
-
-        Stream<DynamicTest> streamReturn = Stream.concat(filterGroupLengthTestStream, filterGroupFirstValueTestStream);
-        streamReturn = Stream.concat(streamReturn, filterGroupLastValueTestStream);
-
-        return streamReturn;
+        return Stream.concat(streamReturn,
+                filterLastValueTestStream(inputList, FilterColumnsEnum.group));
     }
 
     @TestFactory
     Stream<DynamicTest> filterTypeColumnValidateTestCases() {
-        List<ValidateFilterColumnDataTestHelper> inputList = getTestParameters();
+        FilterColumnDataTestsInput filterColumnDataTestsInput = new FilterColumnDataTestsInput();
+        List<FilterColumnDataTestParameters> inputList = filterColumnDataTestsInput.getTestParameters();
 
-        Stream<DynamicTest> filterTypeLengthTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Type Column Length; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
-                        () -> {
-                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
+        Stream<DynamicTest> streamReturn = Stream.concat(
+                filterLengthTestStream(inputList, FilterColumnsEnum.type),
+                filterFirstValueTestStream(inputList, FilterColumnsEnum.type));
 
-                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
-                                    filterModel.applyFilterValues(validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
+        return Stream.concat(streamReturn,
+                filterLastValueTestStream(inputList, FilterColumnsEnum.type));
+    }
 
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.type);
-                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
-
-                            Assertions.assertEquals(validateFilter.getTypeFilterReturnListLength(),
-                                    FilteredColumnsData.size());
-                        }
-                ));
-        Stream<DynamicTest> filterTypeFirstValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Type Column First Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
+    private Stream<DynamicTest> filterLengthTestStream(List<FilterColumnDataTestParameters> inputList,
+                                                       FilterColumnsEnum filterColumnsEnum) {
+        return inputList.stream().
+                map(filterColumnDataTestParameters -> DynamicTest.dynamicTest(
+                        filterColumnsEnum.name().toUpperCase() +
+                                " Column Length; " +
+                                getAppliedFilterString(filterColumnDataTestParameters),
                         () -> {
                             IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
 
                             Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
                                     filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
+                                            filterColumnDataTestParameters.getFamilyFilterInput(),
+                                            filterColumnDataTestParameters.getGroupFilterInput(),
+                                            filterColumnDataTestParameters.getTypeFilterInput());
 
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.type);
+                            Optional<List<String>> optional = filterResult.get(filterColumnsEnum);
+                            List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
+
+                            Assertions.assertEquals(
+                                    getExpectedListLength(filterColumnsEnum, filterColumnDataTestParameters),
+                                    FilteredColumnsData.size());
+                        }
+                ));
+    }
+
+    private int getExpectedListLength(FilterColumnsEnum filterColumnsEnum,
+                                      FilterColumnDataTestParameters filterColumnDataTestParameters) {
+        switch (filterColumnsEnum) {
+            case family:
+                return filterColumnDataTestParameters.getFamilyFilterReturnListLength();
+            case group:
+                return filterColumnDataTestParameters.getGroupFilterReturnListLength();
+            default:
+                return filterColumnDataTestParameters.getTypeFilterReturnListLength();
+        }
+    }
+
+    private Stream<DynamicTest> filterFirstValueTestStream(List<FilterColumnDataTestParameters> inputList,
+                                                           FilterColumnsEnum filterColumnsEnum) {
+        return inputList.stream().
+                map(filterColumnDataTestParameters -> DynamicTest.dynamicTest(
+                        filterColumnsEnum.name().toUpperCase() +
+                                " Column First Value; " +
+                                getAppliedFilterString(filterColumnDataTestParameters),
+                        () -> {
+                            IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
+
+                            Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
+                                    filterModel.applyFilterValues(
+                                            filterColumnDataTestParameters.getFamilyFilterInput(),
+                                            filterColumnDataTestParameters.getGroupFilterInput(),
+                                            filterColumnDataTestParameters.getTypeFilterInput());
+
+                            Optional<List<String>> optional = filterResult.get(filterColumnsEnum);
                             List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
 
                             Optional<String> firstValue = FilteredColumnsData.stream().findFirst();
 
-                            Assertions.assertEquals(validateFilter.getTypeFilterReturnListFirstValue(),
+                            Assertions.assertEquals(
+                                    getExpectedFirstValue(filterColumnsEnum, filterColumnDataTestParameters),
                                     firstValue.get());
                         }
                 ));
-        Stream<DynamicTest> filterTypeLastValueTestStream = inputList.stream().
-                map(validateFilter -> DynamicTest.dynamicTest(
-                        "Type Column Last Value; Filters: " + validateFilter.getFamilyFilterInput() + ", " +
-                                validateFilter.getGroupFilterInput() + ", " +
-                                validateFilter.getTypeFilterInput(),
+    }
+
+    private String getExpectedFirstValue(FilterColumnsEnum filterColumnsEnum,
+                                         FilterColumnDataTestParameters filterColumnDataTestParameters) {
+        switch (filterColumnsEnum) {
+            case family:
+                return filterColumnDataTestParameters.getFamilyFilterReturnListFirstValue();
+            case group:
+                return filterColumnDataTestParameters.getGroupFilterReturnListFirstValue();
+            default:
+                return filterColumnDataTestParameters.getTypeFilterReturnListFirstValue();
+        }
+    }
+
+    private Stream<DynamicTest> filterLastValueTestStream(List<FilterColumnDataTestParameters> inputList,
+                                                          FilterColumnsEnum filterColumnsEnum) {
+        return inputList.stream().
+                map(filterColumnDataTestParameters -> DynamicTest.dynamicTest(
+                        filterColumnsEnum.name().toUpperCase() +
+                                " Column Last Value; " +
+                                getAppliedFilterString(filterColumnDataTestParameters),
                         () -> {
                             IFilterEquipmentDataModel filterModel = getFilterEquipmentDataModel();
 
                             Map<FilterColumnsEnum, Optional<List<String>>> filterResult =
                                     filterModel.applyFilterValues(
-                                            validateFilter.getFamilyFilterInput(),
-                                            validateFilter.getGroupFilterInput(),
-                                            validateFilter.getTypeFilterInput());
+                                            filterColumnDataTestParameters.getFamilyFilterInput(),
+                                            filterColumnDataTestParameters.getGroupFilterInput(),
+                                            filterColumnDataTestParameters.getTypeFilterInput());
 
-                            Optional<List<String>> optional = filterResult.get(FilterColumnsEnum.type);
+                            Optional<List<String>> optional = filterResult.get(filterColumnsEnum);
                             List<String> FilteredColumnsData = optional.orElseGet(ArrayList::new);
 
                             Optional<String> lastValue = Optional.ofNullable(
                                     FilteredColumnsData.get(FilteredColumnsData.size() - 1));
 
-                            Assertions.assertEquals(validateFilter.getTypeFilterReturnListLastValue(),
+                            Assertions.assertEquals(
+                                    getExpectedLastValue(filterColumnsEnum, filterColumnDataTestParameters),
                                     lastValue.get());
                         }
                 ));
-
-        Stream<DynamicTest> streamReturn = Stream.concat(filterTypeLengthTestStream, filterTypeFirstValueTestStream);
-        streamReturn = Stream.concat(streamReturn, filterTypeLastValueTestStream);
-
-        return streamReturn;
     }
 
+    private String getExpectedLastValue(FilterColumnsEnum filterColumnsEnum,
+                                        FilterColumnDataTestParameters filterColumnDataTestParameters) {
+        switch (filterColumnsEnum) {
+            case family:
+                return filterColumnDataTestParameters.getFamilyFilterReturnListLastValue();
+            case group:
+                return filterColumnDataTestParameters.getGroupFilterReturnListLastValue();
+            default:
+                return filterColumnDataTestParameters.getTypeFilterReturnListLastValue();
+        }
+    }
+
+    private String getAppliedFilterString(FilterColumnDataTestParameters filterColumnDataTestParameters) {
+        return "FILTERS: " +
+                filterColumnDataTestParameters.getFamilyFilterInput() + ", " +
+                filterColumnDataTestParameters.getGroupFilterInput() + ", " +
+                filterColumnDataTestParameters.getTypeFilterInput();
+    }
 
     private IFilterEquipmentDataModel getFilterEquipmentDataModel() {
         return new FilterEquipmentDataModel(dataTable, filterDataColumnNames);
-    }
-    private List<ValidateFilterColumnDataTestHelper> getTestParameters() {
-        return Arrays.asList(
-                new ValidateFilterColumnDataTestHelper(
-                        "Aircraft", null, null,
-                        2, 4, 24,
-                        "", "Aircraft",
-                        "", "Transport",
-                        "", "UNKNOWN"),
-                getNoFilterValidateFilterColumnDataTestHelper(),
-                new ValidateFilterColumnDataTestHelper(
-                        null, "SAM", null,
-                        2, 2, 7,
-                        "", "ADA",
-                        "", "SAM",
-                        "", "Star Streak"),
-                getNoFilterValidateFilterColumnDataTestHelper(),
-                new ValidateFilterColumnDataTestHelper(
-                        null, null, "SA-14",
-                        2, 3, 2,
-                        "", "ADA",
-                        "", "SAM",
-                        "", "SA-14"),
-                getNoFilterValidateFilterColumnDataTestHelper());
-    }
-
-    private  ValidateFilterColumnDataTestHelper getNoFilterValidateFilterColumnDataTestHelper() {
-        return new ValidateFilterColumnDataTestHelper(
-                null, null, null,
-                3, 6, 35,
-                "", "Aircraft",
-                "", "Transport",
-                "", "UNKNOWN");
     }
 }
