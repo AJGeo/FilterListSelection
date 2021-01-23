@@ -2,7 +2,7 @@ package org.aj.lists.filter.model.filtered_data;
 
 import java.util.List;
 
-public class FilteredDataParameters {
+public class FilteredDataTestParameters {
     private final String familyFilterInput;
     private final String groupFilterInput;
     private final String typeFilterInput;
@@ -10,8 +10,8 @@ public class FilteredDataParameters {
     private final List<String> firstRecord;
     private final List<String> lastRecord;
 
-    public FilteredDataParameters(String familyFilterInput, String groupFilterInput, String typeFilterInput,
-                                  int filteredRecordsCount, List<String> firstRecord, List<String> lastRecord) {
+    public FilteredDataTestParameters(String familyFilterInput, String groupFilterInput, String typeFilterInput,
+                                      int filteredRecordsCount, List<String> firstRecord, List<String> lastRecord) {
         this.familyFilterInput = familyFilterInput;
         this.groupFilterInput = groupFilterInput;
         this.typeFilterInput = typeFilterInput;
