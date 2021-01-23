@@ -54,12 +54,9 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
 
         filteredDataList.clear();
         for (IDataRow row : dataTable.getRows().get()) {
-            String familyDataValue = row.getString(familyColumnIndex).isPresent() ?
-                    row.getString(familyColumnIndex).get() : null;
-            String groupDataValue = row.getString(groupColumnIndex).isPresent() ?
-                    row.getString(groupColumnIndex).get() : null;
-            String typeDataValue = row.getString(typeColumnIndex).isPresent() ?
-                    row.getString(typeColumnIndex).get() : null;
+            String familyDataValue = getFamilyDataValue(row);
+            String groupDataValue = getGroupDataValue(row);
+            String typeDataValue = getTypeDataValue(row);
 
             if (isFamilyFilterPass(familyDataValue, familyFilterValue) &&
                     isGroupFilterPass(groupDataValue, groupFilterValue) &&
@@ -73,16 +70,30 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
         }
         sortFilteredListValues();
 
-        List<String> familyList = familySet.stream().sorted().collect(Collectors.toList());
-        List<String> groupList = groupSet.stream().sorted().collect(Collectors.toList());
-        List<String> typeList = typeSet.stream().sorted().collect(Collectors.toList());
-
+        List<String> familyList = getSortedListFromSet(familySet);
+        List<String> groupList = getSortedListFromSet(groupSet);
+        List<String> typeList = getSortedListFromSet(typeSet);
 
         filterColumnDataMap.put(FilterColumnsEnum.family, Optional.of(familyList));
         filterColumnDataMap.put(FilterColumnsEnum.group, Optional.of(groupList));
         filterColumnDataMap.put(FilterColumnsEnum.type, Optional.of(typeList));
 
         return (filterColumnDataMap);
+    }
+
+    private String getFamilyDataValue(IDataRow row) {
+        return row.getString(familyColumnIndex).isPresent() ?
+                row.getString(familyColumnIndex).get() : null;
+    }
+
+    private String getGroupDataValue(IDataRow row) {
+        return row.getString(groupColumnIndex).isPresent() ?
+                row.getString(groupColumnIndex).get() : null;
+    }
+
+    private String getTypeDataValue(IDataRow row) {
+        return row.getString(typeColumnIndex).isPresent() ?
+                row.getString(typeColumnIndex).get() : null;
     }
 
     private boolean isFamilyFilterPass(String dataValue, String familyFilterValue) {
@@ -98,8 +109,9 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
     }
 
     private void addFilteredListValues(String... dataValues) {
-        filteredDataList.add(new ArrayList<>(
-                Arrays.asList(dataValues)));
+        List<String> newList = new ArrayList<>(Arrays.asList(dataValues));
+        if (!filteredDataList.contains(newList))
+            filteredDataList.add(newList);
     }
 
     private void sortFilteredListValues() {
@@ -112,6 +124,10 @@ public class FilterEquipmentDataModel implements IFilterEquipmentDataModel {
             compareFirstToLastListValue = compareFirstToLastListValue.thenComparing(groupValue -> groupValue.get(countFinal));
         }
         filteredDataList.sort(compareFirstToLastListValue);
+    }
+
+    private List<String> getSortedListFromSet(Set<String> stringSet) {
+        return stringSet.stream().sorted().collect(Collectors.toList());
     }
 
     @Override
